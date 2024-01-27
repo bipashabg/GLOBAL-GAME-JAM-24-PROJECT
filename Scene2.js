@@ -104,6 +104,7 @@ class Scene2 extends Phaser.Scene {
 
     startGame() {
         console.log("Start Game");
+        this.scene.start("mapScene");
     }
 
     showOptions() {
