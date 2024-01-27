@@ -4,6 +4,7 @@ class Level2Scene extends Phaser.Scene {
     }
 
     preload() {
+        this.load.audio('backgroundMusic', 'assets/audio/bgmusic.mp3');
         this.load.image("background2", "assets/images/level2bg.jpg");
         this.load.image("spaceship", "assets/spritesheets/ship.png");
         this.load.image("asteroid", "assets/images/asteroid.png");
@@ -11,6 +12,9 @@ class Level2Scene extends Phaser.Scene {
 
     create() {
         // Background
+        this.backgroundMusic = this.sound.add('backgroundMusic', { loop: true });
+        this.backgroundMusic.play();
+
         this.background2 = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, "background2");
         this.background2.displayWidth = this.sys.game.config.width;
         this.background2.displayHeight = this.sys.game.config.height;

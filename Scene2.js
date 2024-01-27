@@ -3,8 +3,17 @@ class Scene2 extends Phaser.Scene {
         super("playGame");
     }
 
+    preload() {
+        // Loading audio files
+        this.load.audio('backgroundMusic', 'assets/audio/bgmusic.mp3');
+        this.load.audio('buttonClick', 'assets/audio/click.mp3');
+    }
+
     create() {
         const { width, height } = this.sys.game.config;
+
+        this.backgroundMusic = this.sound.add('backgroundMusic', { loop: true });
+        this.backgroundMusic.play();
 
         this.background = this.add.image(0,0,"background");
         this.background.setOrigin(0,0);
@@ -85,7 +94,10 @@ class Scene2 extends Phaser.Scene {
             borderWidth: 2,
         }).setOrigin(0.5).setInteractive();
 
-        button.on('pointerup', callback);
+        button.on('pointerup', () => {
+            this.sound.play('buttonClick');
+            callback();
+        });
         button.on('pointerover', () => this.onButtonHover(button));
         button.on('pointerout', () => this.onButtonOut(button));
     }
