@@ -54,6 +54,8 @@ class Scene2 extends Phaser.Scene {
             font: "25px Arial",
             fill: "white"
         });
+
+        this.input.keyboard.on("keydown-O", this.showOptions, this);
     }
 
     moveShip(ship, speed) {
@@ -107,9 +109,58 @@ class Scene2 extends Phaser.Scene {
         this.scene.start("mapScene");
     }
 
+    // Function to show the options pop-up
     showOptions() {
-        console.log("Show Options");
+        // Create a pop-up container
+        const popupContainer = this.add.container(this.sys.game.config.width / 2, this.sys.game.config.height / 2);
+
+        // Background for the pop-up
+        const popupBackground = this.add.graphics();
+        popupBackground.fillStyle(0x000000, 0.7);
+        popupBackground.fillRect(-150, -100, 300, 200);
+        popupContainer.add(popupBackground);
+
+        // Text for options
+        const optionsText = this.add.text(-120, -70, 'Choose an option:', {
+            font: '20px Arial',
+            fill: '#ffffff'
+        });
+        popupContainer.add(optionsText);
+
+        // Option 1: Adjust Volume
+        const adjustVolumeText = this.add.text(-120, -30, '1. Adjust Volume', {
+            font: '18px Arial',
+            fill: '#ffffff'
+        });
+        adjustVolumeText.setInteractive().on('pointerdown', () => {
+            console.log('Adjust Volume');
+            popupContainer.destroy(); // Close the pop-up
+        });
+        popupContainer.add(adjustVolumeText);
+
+        // Option 2: Controls
+        const controlsText = this.add.text(-120, 0, '2. Controls', {
+            font: '18px Arial',
+            fill: '#ffffff'
+        });
+        controlsText.setInteractive().on('pointerdown', () => {
+            const controlsMessage = 'Controls:\nLevel 1: \nLevel 2: Press space key to move up';
+            alert(controlsMessage);
+            popupContainer.destroy(); // Close the pop-up
+        });
+        popupContainer.add(controlsText);
+
+        // Close button
+        const closeButton = this.add.text(120, -70, 'X', {
+            font: '20px Arial',
+            fill: '#ff0000'
+        });
+        closeButton.setInteractive().on('pointerdown', () => {
+            popupContainer.destroy(); // Close the pop-up
+        });
+        popupContainer.add(closeButton);
     }
+
 
     quitGame() {
         console.log("Quit Game");
