@@ -34,13 +34,18 @@ class Level2Scene extends Phaser.Scene {
         // Event listener for spacebar
         this.input.keyboard.on("keydown-SPACE", this.flap, this);
 
+        this.initialDistance = this.sys.game.config.width;
+
         // Timer for adding asteroids
         this.timer = this.time.addEvent({
-            delay: 2000, // Add an asteroid every 2 seconds
+            delay: 1000, // Add an asteroid every 2 seconds
             callback: this.addAsteroid,
             callbackScope: this,
             loop: true,
         });
+
+        // Add asteroids immediately
+        this.addAsteroid();
 
         // Distance left countdown
         this.distanceLeft = this.sys.game.config.width;
@@ -52,21 +57,20 @@ class Level2Scene extends Phaser.Scene {
 
     update() {
         // Move the spaceship continuously to the right
-        this.spaceship.x += 2;
+        this.spaceship.x += 1; // Decreased the spaceship speed
     
         // Move the background based on the distance covered
-        this.distanceLeft -= 2; // Adjust the decrement value based on your preference
+        this.distanceLeft -= 1; // Adjust the decrement value based on your preference
         this.distanceText.setText(`Distance left: ${Math.max(0, this.distanceLeft)}`);
     
-        // Calculate the background movement based on distance covered
-        const backgroundMovement = this.sys.game.config.width - Math.max(0, this.distanceLeft);
-        this.background2.tilePositionX = backgroundMovement;
+        // Move the background based on spaceship movement
+        this.background2.tilePositionX += 1; // Adjust the scrolling speed
     
         // Move the spaceship up or down based on spacebar input
         if (this.cursors.space.isDown) {
-            this.spaceship.setVelocityY(-200);
+            this.spaceship.setVelocityY(-100); // Decreased the upward speed
         } else {
-            this.spaceship.setVelocityY(200); // Adjust the downward speed as needed
+            this.spaceship.setVelocityY(100); // Decreased the downward speed
         }
     
         // Check for collisions with asteroids
@@ -77,9 +81,11 @@ class Level2Scene extends Phaser.Scene {
             console.log("Level completed!");
             alert("Level completed");
             // You can transition to the next level or perform any other actions here
+
+            // Redirect to Scene2
+            this.scene.start("Scene2");
         }
     }
-    
     
 
     flap() {
@@ -89,7 +95,11 @@ class Level2Scene extends Phaser.Scene {
 
     addAsteroid() {
         // Add an asteroid to the obstacles group
-        const asteroid = this.physics.add.image(this.sys.game.config.width, Phaser.Math.Between(50, this.sys.game.config.height - 50), "asteroid");
+        const asteroid = this.physics.add.image(
+            Phaser.Math.Between(0, this.sys.game.config.width), // Random X position
+            Phaser.Math.Between(50, this.sys.game.config.height - 50),
+            "asteroid"
+        );
         asteroid.setScale(0.5); // Make the asteroid smaller
         asteroid.setVelocityX(-150); // Move the asteroid to the left
         asteroid.setScale(0.16);
@@ -106,3 +116,4 @@ class Level2Scene extends Phaser.Scene {
         this.scene.restart(); // Restart the level on game over
     }
 }
+
