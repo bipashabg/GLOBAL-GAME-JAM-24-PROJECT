@@ -38,7 +38,7 @@ class Level2Scene extends Phaser.Scene {
 
         // Timer for adding asteroids
         this.timer = this.time.addEvent({
-            delay: 1000, // Add an asteroid every 2 seconds
+            delay: 1500, 
             callback: this.addAsteroid,
             callbackScope: this,
             loop: true,
@@ -83,7 +83,7 @@ class Level2Scene extends Phaser.Scene {
             // You can transition to the next level or perform any other actions here
 
             // Redirect to Scene2
-            this.scene.start("Scene2");
+            //this.scene.start("Scene2");
         }
     }
     
